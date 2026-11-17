@@ -181,4 +181,15 @@ refreshBattle();refreshStats();document.addEventListener('change',e=>{if(e.targe
 const oldBuild=app.buildReport;app.buildReport=function(){const base=oldBuild();const log=d.challengeLog||[];const extra=["","LUCKY PLAYER CHALLENGES (EXP AWARDS)",...log.map(x=>`${x.playerName}: ${x.challenge} — ${x.completed?'COMPLETED: +40 MVP EXP, +40 Batting EXP':'NOT COMPLETED: no bonus EXP'}`)];return base+extra.join('\n')};
 })();
 </script>
+ 
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("CRL Offline Ready"))
+      .catch(error => console.log(error));
+  });
+}
+</script>
+
 </body></html>
