@@ -190,6 +190,79 @@ if ("serviceWorker" in navigator) {
       .catch(error => console.log(error));
   });
 }
+ 
+// ===== CRL INDIVIDUAL BATTLE FORMATS =====
+
+const crlBattleFormats = [
+  { name: "1v1 Duel", players: 2 },
+  { name: "1v1v1 Triple Threat", players: 3 },
+  { name: "1v1v1v1 Quad Battle", players: 4 },
+  { name: "Battle of Five", players: 5 },
+  { name: "Six Star Battle", players: 6 },
+  { name: "Seven Star Battle", players: 7 },
+  { name: "Eight Warriors", players: 8 },
+  { name: "Ultimate Nine", players: 9 }
+];
+
+let crlBattleHistory = [];
+
+function startCRLBattle(formatIndex, selectedPlayers) {
+  const format = crlBattleFormats[formatIndex];
+
+  if (!format) {
+    alert("Invalid battle format!");
+    return;
+  }
+
+  if (selectedPlayers.length !== format.players) {
+    alert("Select exactly " + format.players + " players!");
+    return;
+  }
+
+  if (new Set(selectedPlayers).size !== selectedPlayers.length) {
+    alert("A player cannot be selected twice!");
+    return;
+  }
+
+  const battle = {
+    id: Date.now(),
+    format: format.name,
+    players: [...selectedPlayers],
+    winner: null,
+    date: new Date().toLocaleDateString()
+  };
+
+  crlBattleHistory.push(battle);
+
+  alert(format.name + " started successfully!");
+
+  return battle;
+}
+
+function finishCRLBattle(battleId, winner) {
+  const battle = crlBattleHistory.find(b => b.id === battleId);
+
+  if (!battle) {
+    alert("Battle not found!");
+    return;
+  }
+
+  if (!battle.players.includes(winner)) {
+    alert("Winner must be a participating player!");
+    return;
+  }
+
+  battle.winner = winner;
+
+  alert("🏆 " + winner + " wins " + battle.format + "!");
+}
+
+function getCRLBattleHistory() {
+  return crlBattleHistory;
+}
+
+// ===== END CRL BATTLE SYSTEM =====
+
 </script>
 
 </body></html>
